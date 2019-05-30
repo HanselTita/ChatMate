@@ -101,7 +101,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="34dp"
         android:layout_marginRight="23dp"
-        android:text="Or Longin using your"
+        android:text="Or Login using your"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="17dp"
