@@ -56,10 +56,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void sendUserToLoginActivity() {
-        Intent LoginIntent = new Intent(MainActivity.this,LoginActivity.class);
-        startActivity(LoginIntent);
-    }
+
 
 
     @Override
@@ -84,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(item.getItemId() == R.id.main_settings_option)
         {
-
+            sendUserToSettingsActivity();
         }
 
         if(item.getItemId() == R.id.main_find_friends_option)
@@ -94,4 +91,16 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+
+    private void sendUserToLoginActivity() {
+        Intent LoginIntent = new Intent(MainActivity.this,LoginActivity.class);
+        startActivity(LoginIntent);
+    }
+
+    private void sendUserToSettingsActivity() {
+        Intent SettingsIntent = new Intent(MainActivity.this,SettingsActivity.class);
+        startActivity(SettingsIntent);
+    }
+
 }
