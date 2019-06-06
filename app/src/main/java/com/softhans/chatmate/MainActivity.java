@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Enter group Name: ");
 
         final EditText groupNameField = new EditText(MainActivity.this);
-        groupNameField.setHint("e.g. Chat Mates");
+        groupNameField.setHint("Example. Chat Mates");
         builder.setView(groupNameField);
 
         builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
