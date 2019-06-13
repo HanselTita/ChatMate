@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/myLinearLayout"
             android:layout_alignEnd="@+id/myLinearLayout"
-            app:srcCompat="@drawable/send_message" />
+            android:src="@drawable/send_message" />
 
     </LinearLayout>
 

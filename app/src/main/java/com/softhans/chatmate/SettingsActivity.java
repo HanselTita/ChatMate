@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -125,6 +126,22 @@ public class SettingsActivity extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             Toast.makeText(SettingsActivity.this, "Profile Image uploaded Sucessfully", Toast.LENGTH_SHORT).show();
+
+                            final String downloadUrl = task.getResult().getDownloadUrl().toString();
+
+
+                            RootRef.child("Users").child(currentUserID).child("image")
+                                    .setValue(downloadUrl)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task)
+                                        {
+                                            if(task.isSuccessful())
+                                            {
+
+                                            }
+                                        }
+                                    });
                         }
                         else
                         {
