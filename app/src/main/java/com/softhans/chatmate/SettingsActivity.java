@@ -1,5 +1,6 @@
 package com.softhans.chatmate;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -43,6 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private static final int GalleryPick = 1;
     private StorageReference UserProfileImagesRef;
+    private ProgressDialog loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
         userName = (EditText)findViewById(R.id.set_user_name);
         userStatus = (EditText)findViewById(R.id.set_profile_status);
         userProfileImage = (CircleImageView) findViewById(R.id.set_profile_image);
-
+        loadingBar = new ProgressDialog(this);
 
     }
 
@@ -115,6 +119,11 @@ public class SettingsActivity extends AppCompatActivity {
 
             if(resultCode == RESULT_OK)
             {
+                loadingBar.setTitle("Set Profile image");
+                loadingBar.setMessage("Updating Profile image");
+                loadingBar.setCanceledOnTouchOutside(false);
+                loadingBar.show();
+
                 Uri resultUri = result.getUri();
 
                 StorageReference filePath = UserProfileImagesRef.child(currentUserID + ".jpg");
@@ -138,7 +147,14 @@ public class SettingsActivity extends AppCompatActivity {
                                         {
                                             if(task.isSuccessful())
                                             {
-
+                                                Toast.makeText(SettingsActivity.this, "Image saved", Toast.LENGTH_SHORT).show();
+                                                loadingBar.dismiss();
+                                            }
+                                            else
+                                            {
+                                                String message = task.getException().toString();
+                                                Toast.makeText(SettingsActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                                                loadingBar.dismiss();
                                             }
                                         }
                                     });
@@ -148,6 +164,7 @@ public class SettingsActivity extends AppCompatActivity {
                             String message = task.getException().toString();
 
                             Toast.makeText(SettingsActivity.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                            loadingBar.dismiss();
 
                         }
                     }
@@ -217,6 +234,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                             userName.setText(retrieveUserName);
                             userStatus.setText(retrieveStatus);
+                            Picasso.get().load(retrieveProfileImage).into(userProfileImage);
                         }
                         else if ((dataSnapshot.exists()) && (dataSnapshot.hasChild("name") ))
                         {
@@ -226,6 +244,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                             userName.setText(retrieveUserName);
                             userStatus.setText(retrieveStatus);
+
                         }
                         else
                         {
